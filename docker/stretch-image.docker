@@ -22,9 +22,18 @@ RUN apt-get -y -t stretch-backports --no-install-recommends install \
 
 RUN apt-get -y -t stretch-backports install \
    python-sphinx \
-   python-sphinx-rtd-theme
+   python-sphinx-rtd-theme \
+   debhelper
+# We install debhelper from stretch-backports above becuase C* 4.0-rc1 introduced a build dependency
+# on >= 11 and the main stretch repo only has 10.2.5.
 
 RUN update-java-alternatives --set java-1.8.0-openjdk-amd64
+
+# C* 4.0-rc1 introduced a build dependency on python-dev >= 3.6 and stretch-backports only has 3.5
+# so we grab 3.7 from the buster repo for now.
+RUN echo 'deb http://deb.debian.org/debian buster main' > /etc/apt/sources.list.d/buster.list && \
+   apt-get update && \
+   apt-get -y -t buster install python3-dev
 
 # create and change to build user
 RUN adduser --disabled-login --gecos build build && gpasswd -a build sudo
