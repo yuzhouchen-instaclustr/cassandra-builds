@@ -53,6 +53,7 @@ USER build
 # clone Cassandra and cache maven artifacts
 ARG CASSANDRA_GIT_URL=https://gitbox.apache.org/repos/asf/cassandra.git
 RUN git clone ${CASSANDRA_GIT_URL} ${CASSANDRA_DIR}
+RUN echo ${CASSANDRA_GIT_URL}
 WORKDIR ${CASSANDRA_DIR}
 RUN ant resolver-retrieve-build
 
