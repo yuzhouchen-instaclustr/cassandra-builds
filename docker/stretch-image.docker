@@ -50,10 +50,9 @@ RUN echo "build ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/build && \
 
 USER build
 
-# clone Cassandra and cache maven artifacts
+# clone Cassandra
 ARG CASSANDRA_GIT_URL=https://gitbox.apache.org/repos/asf/cassandra.git
 RUN git clone ${CASSANDRA_GIT_URL} ${CASSANDRA_DIR}
 WORKDIR ${CASSANDRA_DIR}
-RUN ant maven-ant-tasks-retrieve-build
 
 COPY build-debs.sh $BUILD_HOME/
